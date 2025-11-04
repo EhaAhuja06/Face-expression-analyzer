@@ -1,22 +1,25 @@
-import os
 import streamlit as st
+import os
+import sys
+
+# ----------------------------#
+# ⚙️ Bypass cv2 for Streamlit Cloud
+# ----------------------------#
+try:
+    import cv2
+    cv2_available = True
+except Exception:
+    import types
+    cv2 = types.SimpleNamespace()
+    sys.modules["cv2"] = cv2
+    cv2_available = False
+
 from deepface import DeepFace
 import tempfile
 import numpy as np
 import statistics
 from collections import deque
-
-# ----------------------------#
-# 🌍 Environment Setup
-# ----------------------------#
-os.environ["OPENCV_VIDEOIO_PRIORITY_MSMF"] = "0"
-os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
-
-try:
-    import cv2
-    opencv_available = True
-except Exception:
-    opencv_available = False
+import time
 
 # ----------------------------#
 # 🎨 Streamlit Page Setup
@@ -57,7 +60,7 @@ def upload_detection(uploaded_file):
 # 🎥 Real-time Detection (Only if OpenCV works)
 # ----------------------------#
 def real_time_detection():
-    if not opencv_available:
+    if not cv2_available:
         st.error("⚠️ Real-time detection is unavailable on Streamlit Cloud.")
         return
 
@@ -96,7 +99,7 @@ def real_time_detection():
 # ----------------------------#
 # ⚙️ App Options
 # ----------------------------#
-if opencv_available:
+if cv2_available:
     mode = st.radio("Choose Mode:", ["📸 Real-time Detection", "🖼️ Upload Image"])
 else:
     st.info("Webcam not supported on Streamlit Cloud. Upload mode only.")
