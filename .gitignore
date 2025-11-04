@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+.env
+pip-log.txt
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Data / Models (don't upload large model files)
+*.h5
+*.hdf5
+*.pt
+*.pth
+models/
+data/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs / tmp
+*.log
+tmp/
